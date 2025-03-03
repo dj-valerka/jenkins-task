@@ -25,7 +25,7 @@ pipeline {
         }
         stage("Build docker image"){
             steps{
-                sh "docker build -t djvalerka/jenkins-task:$env.BUILD_NUMBER ."
+                sh "docker build -t djvalerka/jenkins:$env.BUILD_NUMBER ."
             }
         }
         stage("Publish docker image"){
@@ -33,7 +33,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: "docker-credentials", usernameVariable: "DOCKER_REPOSITORY_USER", passwordVariable: "DOCKER_REPOSITORY_PASSWORD")]){
                         sh "docker login -u $DOCKER_REPOSITORY_USER -p $DOCKER_REPOSITORY_PASSWORD"
-                        sh "docker push djvalerka/jenkins-task:$env.BUILD_NUMBER"
+                        sh "docker push djvalerka/jenkins:$env.BUILD_NUMBER"
                     }
                 }
             }
