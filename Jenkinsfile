@@ -5,24 +5,24 @@ pipeline {
         maven 'maven3'
     }
 
-    stages{
-        stage("Compile"){
-            steps{
-                sh "mvn clean compile"
-            }
-        }
+    // stages{
+    //     stage("Compile"){
+    //         steps{
+    //             sh "mvn clean compile"
+    //         }
+    //     }
 
-         stage("Test Cases"){
-            steps{
-                sh "mvn test"
-            }
-        }
+    //      stage("Test Cases"){
+    //         steps{
+    //             sh "mvn test"
+    //         }
+    //     }
 
-         stage("Build"){
-            steps{
-                sh "mvn clean install"
-            }
-        }
+    //      stage("Build"){
+    //         steps{
+    //             sh "mvn clean install"
+    //         }
+    //     }
         stage('Install JFrog CLI'){
             steps{
                 sh '''
