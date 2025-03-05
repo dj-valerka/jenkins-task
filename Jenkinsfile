@@ -48,14 +48,14 @@ pipeline {
         }
         stage("Build docker image"){
             steps{
-                sh "docker build -t djvalerka/jenkins:$env.BUILD_NUMBER ."
+                sh "docker build -t jenkins:$env.BUILD_NUMBER ."
             }
         }
         stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh "docker push http://192.168.1.3:8082/artifactory/docker-repo/djvalerka/jenkins:$env.BUILD_NUMBER"
+                        sh "docker push http://192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
                         
                     }
                 }
