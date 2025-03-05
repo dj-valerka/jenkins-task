@@ -34,18 +34,23 @@ pipeline {
                 '''
             }
         }
-        stage("Publish *.jar to JFrog Artifactory"){
+        stage('Ping to jfrog'){
             steps{
-                script{
-                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh '''
-                            jf config add --artifactory-url http://localhost:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
-                            jf rt upload "target/*.jar" maven-repo/com/example/my-app/
-                        '''
-                    }
-                }
+                sh "ping -c 4 172.28.0.3"
             }
         }
+        // stage("Publish *.jar to JFrog Artifactory"){
+        //     steps{
+        //         script{
+        //             withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
+        //                 sh '''
+        //                     jf config add --artifactory-url http://localhost:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
+        //                     jf rt upload "target/*.jar" maven-repo/com/example/my-app/
+        //                 '''
+        //             }
+        //         }
+        //     }
+        // }
 
         stage("Build docker image"){
             steps{
