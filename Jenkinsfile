@@ -56,7 +56,7 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh "docker push http://192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                        sh "docker push 192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
                         
                     }
                 }
