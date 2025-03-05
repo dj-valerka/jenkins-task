@@ -36,7 +36,10 @@ pipeline {
         }
         stage('Ping to jfrog'){
             steps{
-                sh "ping -c 4 172.28.0.3"
+                sh '''
+                    apt install iputils-ping
+                    ping -c 4 172.28.0.3
+                '''
             }
         }
         // stage("Publish *.jar to JFrog Artifactory"){
