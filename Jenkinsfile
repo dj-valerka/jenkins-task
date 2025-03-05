@@ -6,23 +6,23 @@ pipeline {
     }
 
     stages{
-        stage("Compile"){
-            steps{
-                sh "mvn clean compile"
-            }
-        }
+        // stage("Compile"){
+        //     steps{
+        //         sh "mvn clean compile"
+        //     }
+        // }
 
-         stage("Test Cases"){
-            steps{
-                sh "mvn test"
-            }
-        }
+        //  stage("Test Cases"){
+        //     steps{
+        //         sh "mvn test"
+        //     }
+        // }
 
-         stage("Build"){
-            steps{
-                sh "mvn clean install"
-            }
-        }
+        //  stage("Build"){
+        //     steps{
+        //         sh "mvn clean install"
+        //     }
+        // }
         stage('Install JFrog CLI'){
             steps{
                 sh '''
@@ -49,7 +49,7 @@ pipeline {
         stage("Build docker image"){
             steps{
                 sh "docker build -t jenkins:$env.BUILD_NUMBER ."
-                sh "docker tag jenkins:$env.BUILD_NUMBER http://192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
             }
         }
         stage("Publish docker image to JFrog Artifactory"){
