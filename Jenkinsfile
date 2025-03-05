@@ -39,7 +39,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
                         sh '''
-                            jf config add --artifactory-url http://192.168.1.3:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
+                            jf config add --artifactory-url http://192.168.1.2:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
                             jf rt upload "target/*.jar" maven-repo/
                         '''
                     }
@@ -49,14 +49,14 @@ pipeline {
         stage("Build docker image"){
             steps{
                 sh "docker build -t jenkins:$env.BUILD_NUMBER ."
-                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.2:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
             }
         }
         stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh "docker push 192.168.1.3:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                        sh "docker push 192.168.1.2:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
                         
                     }
                 }
