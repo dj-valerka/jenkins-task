@@ -34,41 +34,43 @@ pipeline {
                 '''
             }
         }
-        stage('Ping to jfrog'){
-            steps{
-                sh '''
-                    apt install iputils-ping -y
-                    ping -c 4 192.168.1.3
-                '''
-            }
-        }
         stage("Publish *.jar to JFrog Artifactory"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
                         sh '''
                             jf config add --artifactory-url http://192.168.1.3:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
-                            jf rt upload "target/*.jar" maven-repo/com/example/my-app/
+                            jf rt upload "target/*.jar" maven-repo/
                         '''
                     }
                 }
             }
         }
-
         stage("Build docker image"){
             steps{
                 sh "docker build -t djvalerka/jenkins:$env.BUILD_NUMBER ."
             }
         }
-        stage("Publish docker image"){
+        stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: "docker-credentials", usernameVariable: "DOCKER_REPOSITORY_USER", passwordVariable: "DOCKER_REPOSITORY_PASSWORD")]){
-                        sh "docker login -u $DOCKER_REPOSITORY_USER -p $DOCKER_REPOSITORY_PASSWORD"
-                        sh "docker push djvalerka/jenkins:$env.BUILD_NUMBER"
+                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
+                        sh '''
+                            docker push djvalerka/jenkins:$env.BUILD_NUMBER
+                        '''
                     }
                 }
             }
-        }
+        }         
+        // stage("Publish docker image"){
+        //     steps{
+        //         script{
+        //             withCredentials([usernamePassword(credentialsId: "docker-credentials", usernameVariable: "DOCKER_REPOSITORY_USER", passwordVariable: "DOCKER_REPOSITORY_PASSWORD")]){
+        //                 sh "docker login -u $DOCKER_REPOSITORY_USER -p $DOCKER_REPOSITORY_PASSWORD"
+        //                 sh "docker push djvalerka/jenkins:$env.BUILD_NUMBER"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
