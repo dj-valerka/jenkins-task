@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    tools{
-        jdk 'openjdk-8'
-        maven 'maven3'
-    }
+    // tools{
+    //     jdk 'openjdk-8'
+    //     maven 'maven3'
+    // }
 
     stages{
     //     stage("Compile"){
@@ -23,22 +23,22 @@ pipeline {
     //             sh "mvn clean install"
     //         }
     //     }
-        stage('Install JFrog CLI'){
-            steps{
-                sh '''
-                    mkdir -p /usr/share/keyrings;
-                    wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --batch --yes --dearmor -o /usr/share/keyrings/jfrog.gpg
-                    echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | tee /etc/apt/sources.list.d/jfrog.list
-                    apt update;
-                    apt install -y jfrog-cli-v2-jf;
-                '''
-            }
-        }
+        // stage('Install JFrog CLI'){
+        //     steps{
+        //         sh '''
+        //             mkdir -p /usr/share/keyrings;
+        //             wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --batch --yes --dearmor -o /usr/share/keyrings/jfrog.gpg
+        //             echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | tee /etc/apt/sources.list.d/jfrog.list
+        //             apt update;
+        //             apt install -y jfrog-cli-v2-jf;
+        //         '''
+        //     }
+        // }
         stage('Ping to jfrog'){
             steps{
                 sh '''
                     apt install iputils-ping -y
-                    ping -c 4 172.28.0.3
+                    ping -c 4 192.168.1.3
                 '''
             }
         }
