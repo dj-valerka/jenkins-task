@@ -37,7 +37,7 @@ pipeline {
         stage('Ping to jfrog'){
             steps{
                 sh '''
-                    apt install iputils-ping
+                    apt install iputils-ping -y
                     ping -c 4 172.28.0.3
                 '''
             }
