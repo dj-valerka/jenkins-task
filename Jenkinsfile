@@ -55,9 +55,8 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh '''
-                            docker push djvalerka/jenkins:$env.BUILD_NUMBER
-                        '''
+                        sh "docker push djvalerka/jenkins:$env.BUILD_NUMBER"
+                        
                     }
                 }
             }
