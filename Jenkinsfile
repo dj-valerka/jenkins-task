@@ -27,7 +27,7 @@ pipeline {
             steps{
                 sh '''
                     mkdir -p /usr/share/keyrings;
-                    wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --dearmor -o /usr/share/keyrings/jfrog.gpg
+                    wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --batch --dearmor -o /usr/share/keyrings/jfrog.gpg
                     echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | tee /etc/apt/sources.list.d/jfrog.list
                     apt update;
                     apt install -y jfrog-cli-v2-jf;
@@ -36,7 +36,14 @@ pipeline {
         }
         stage("Publish *.jar to JFrog Artifactory"){
             steps{
-                sh "jf --version"
+                script{
+                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
+                        sh '''
+                            jfrog rt config --url http://localhost:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
+                            jfrog rt upload "target/*.jar" maven-repo/com/example/my-app/
+                        '''
+                    }
+                }
             }
         }
 
