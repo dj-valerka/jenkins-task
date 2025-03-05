@@ -39,7 +39,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
                         sh '''
-                            jf rt config --url http://localhost:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
+                            jf config --url http://localhost:8082/artifactory --user $JFROG_USER --password $JFROG_PASSWRORD
                             jf rt upload "target/*.jar" maven-repo/com/example/my-app/
                         '''
                     }
