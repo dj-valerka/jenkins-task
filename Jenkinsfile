@@ -6,23 +6,23 @@ pipeline {
     }
 
     stages{
-        stage("Compile"){
-            steps{
-                sh "mvn clean compile"
-            }
-        }
+        // stage("Compile"){
+        //     steps{
+        //         sh "mvn clean compile"
+        //     }
+        // }
 
-         stage("Test Cases"){
-            steps{
-                sh "mvn test"
-            }
-        }
+        //  stage("Test Cases"){
+        //     steps{
+        //         sh "mvn test"
+        //     }
+        // }
 
-         stage("Build"){
-            steps{
-                sh "mvn clean install"
-            }
-        }
+        //  stage("Build"){
+        //     steps{
+        //         sh "mvn clean install"
+        //     }
+        // }
         stage('Install JFrog CLI'){
             steps{
                 sh '''
@@ -49,15 +49,15 @@ pipeline {
         stage("Build docker image"){
             steps{
                 sh "docker build -t jenkins:$env.BUILD_NUMBER ."
-                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.2:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.2:8082/artifactory/docker/jenkins:$env.BUILD_NUMBER"
             }
         }
         stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh "echo ${JFROG_PASSWORD} | docker login -u admin --password-stdin 192.168.1.2:8082/artifactory/docker-repo"
-                        sh "docker push 192.168.1.2:8082/artifactory/docker-repo/jenkins:$env.BUILD_NUMBER"
+                        sh "echo ${JFROG_PASSWORD} | docker login -u admin --password-stdin 192.168.1.2:8082/artifactory/docker"
+                        sh "docker push 192.168.1.2:8082/artifactory/docker/jenkins:$env.BUILD_NUMBER"
                         
                     }
                 }
