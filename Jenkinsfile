@@ -48,8 +48,8 @@ pipeline {
         }
         stage("Build docker image"){
             steps{
-                sh "docker build -t jenkins:$env.BUILD_NUMBER ."
-                sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.2:8082/artifactory/docker/jenkins:$env.BUILD_NUMBER"
+                sh "docker build -t djvalerka/jenkins:$env.BUILD_NUMBER ."
+                // sh "docker tag jenkins:$env.BUILD_NUMBER 192.168.1.2:8082/artifactory/docker/jenkins:$env.BUILD_NUMBER"
             }
         }
         // stage("Publish docker image to JFrog Artifactory"){
