@@ -55,7 +55,7 @@ pipeline {
         stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
+                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
                         sh "echo "$JFROG_PASSWORD" | docker login -u admin --password-stdin 192.168.1.2:8081/artifactory/api/docker/docker-repo"
                         sh "docker push 192.168.1.2:8081/artifactory/api/docker/docker-repo/jenkins:$env.BUILD_NUMBER"
                         
