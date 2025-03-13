@@ -63,7 +63,9 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
-                        sh "docker login ${DOCKER_REGISTRY_URL} -u admin -p ${JFROG_PASSWRORD}"
+                        sh ''' 
+                            docker login ${DOCKER_REGISTRY_URL} -u admin -p ${JFROG_PASSWRORD}
+                        '''
                         sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
                         
                     }
