@@ -1,4 +1,10 @@
 pipeline {
+environment {
+    // Define variables
+    DOCKER_REGISTRY_URL = '172.23.0.2:8092'
+    DOCKER_REPO = 'docker-local'
+    DOCKER_IMAGE_NAME = 'jenkins-task'
+}
     agent any
     tools{
         jdk 'openjdk-8'
@@ -49,16 +55,16 @@ pipeline {
         }
         stage("Build docker image"){
             steps{
-                sh "docker build -t jenkins:$env.BUILD_NUMBER ."
-                sh "docker tag jenkins:$env.BUILD_NUMBER 172.23.0.2:8092/docker-local/jenkins:$env.BUILD_NUMBER"
+                sh "docker build -t ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER --no-cache ."
+                sh "docker tag ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:latest "
             }
         }
         stage("Publish docker image to JFrog Artifactory"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
-                        sh "echo "${JFROG_PASSWORD}" | docker login -u admin -p  --password-stdin 172.23.0.2:8092/docker-local/"
-                        sh "docker push 172.23.0.2/docker-local/jenkins:$env.BUILD_NUMBER"
+                        sh "echo "${JFROG_PASSWORD}" | docker login ${DOCKER_REGISTRY_URL} -u admin -p  --password-stdin "
+                        sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
                         
                     }
                 }
