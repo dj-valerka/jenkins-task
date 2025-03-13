@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
     // Define variables
-        ARTIFACTORY_URL = "http://localhost:8082"
+        ARTIFACTORY_URL = "http://172.23.0.3:8082"
         ARTIFACTORY_REPO = "artifactory"
         DOCKER_REGISTRY_URL = 'localhost:8092'
         DOCKER_REPO = 'docker-local'
