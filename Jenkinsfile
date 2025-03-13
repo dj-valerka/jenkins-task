@@ -57,8 +57,8 @@ pipeline {
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
-                        sh "docker login -u admin -p $JFROG_PASSWORD 172.23.0.2:8092/docker-local/"
-                        sh "docker push 172.23.0.2:8092/docker-local/jenkins:$env.BUILD_NUMBER"
+                        sh "echo "${$JFROG_PASSWORD}" | docker login -u admin -p  --password-stdin 172.23.0.2:8092/docker-local/"
+                        sh "docker push 172.23.0.2/docker-local/jenkins:$env.BUILD_NUMBER"
                         
                     }
                 }
