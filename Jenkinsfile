@@ -7,7 +7,7 @@ pipeline {
     }
     environment {
     // Define variables
-        DOCKER_REGISTRY_URL = '172.23.0.2:8092'
+        DOCKER_REGISTRY_URL = 'jcr:8092'
         DOCKER_REPO = 'docker-local'
         DOCKER_IMAGE_NAME = 'jenkins-task'
     }
