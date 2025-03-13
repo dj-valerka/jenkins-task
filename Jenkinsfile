@@ -7,7 +7,7 @@ pipeline {
     // }
     environment {
     // Define variables
-        DOCKER_REGISTRY_URL = 'jcr:8092'
+        DOCKER_REGISTRY_URL = 'localhost:8092'
         DOCKER_REPO = 'docker-local'
         DOCKER_IMAGE_NAME = 'jenkins-task'
     }
@@ -64,7 +64,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
                         sh ''' 
-                           echo $JFROG_PASSWORD|docker login -u admin --password-stdin jcr:8092
+                           echo $JFROG_PASSWORD|docker login -u admin --password-stdin ${DOCKER_REGISTRY_URL}
                         '''
                         sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
                         
