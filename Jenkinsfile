@@ -1,16 +1,16 @@
 pipeline {
-environment {
-    // Define variables
-    DOCKER_REGISTRY_URL = '172.23.0.2:8092'
-    DOCKER_REPO = 'docker-local'
-    DOCKER_IMAGE_NAME = 'jenkins-task'
-}
+
     agent any
     tools{
         jdk 'openjdk-8'
         maven 'maven3'
     }
-
+    environment {
+    // Define variables
+        DOCKER_REGISTRY_URL = '172.23.0.2:8092'
+        DOCKER_REPO = 'docker-local'
+        DOCKER_IMAGE_NAME = 'jenkins-task'
+    }
     stages{
         // stage("Compile"){
         //     steps{
