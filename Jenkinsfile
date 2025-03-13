@@ -29,18 +29,18 @@ pipeline {
         //         sh "mvn clean install"
         //     }
         // }
-        stage('Install JFrog CLI'){
-            steps{
-                sh '''
-                    apt update && apt install -y wget;
-                    mkdir -p /usr/share/keyrings;
-                    wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --batch --yes --dearmor -o /usr/share/keyrings/jfrog.gpg
-                    echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | tee /etc/apt/sources.list.d/jfrog.list
-                    apt update;
-                    apt install -y jfrog-cli-v2-jf;
-                '''
-            }
-        }
+        // stage('Install JFrog CLI'){
+        //     steps{
+        //         sh '''
+        //             apt update && apt install -y wget;
+        //             mkdir -p /usr/share/keyrings;
+        //             wget -qO - https://releases.jfrog.io/artifactory/api/v2/repositories/jfrog-debs/keyPairs/primary/public | gpg --batch --yes --dearmor -o /usr/share/keyrings/jfrog.gpg
+        //             echo "deb [signed-by=/usr/share/keyrings/jfrog.gpg] https://releases.jfrog.io/artifactory/jfrog-debs focal contrib" | tee /etc/apt/sources.list.d/jfrog.list
+        //             apt update;
+        //             apt install -y jfrog-cli-v2-jf;
+        //         '''
+        //     }
+        // }
         // stage("Publish *.jar to JFrog Artifactory"){
         //     steps{
         //         script{
@@ -64,7 +64,7 @@ pipeline {
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
                         sh ''' 
-                            docker login ${DOCKER_REGISTRY_URL} -u admin -p $JFROG_PASSWRORD
+                            docker login  -u admin -p $JFROG_PASSWRORD ${DOCKER_REGISTRY_URL}
                         '''
                         sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
                         
