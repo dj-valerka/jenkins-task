@@ -59,11 +59,11 @@ pipeline {
                 sh "docker tag ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:latest "
             }
         }
-        stage("Publish docker image to JFrog Artifactory"){
+        stage("Publish docker image to JFrog Registry"){
             steps{
                 script{
                     withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
-                        sh "echo "$JFROG_PASSWORD" | docker login ${DOCKER_REGISTRY_URL} -u admin -p  --password-stdin "
+                        sh "docker login ${DOCKER_REGISTRY_URL} -u admin -p  ${JFROG_PASSWRORD} "
                         sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
                         
                     }
