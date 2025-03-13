@@ -1,10 +1,10 @@
 pipeline {
 
     agent any
-    tools{
-        jdk 'openjdk-8'
-        maven 'maven3'
-    }
+    // tools{
+    //     jdk 'openjdk-8'
+    //     maven 'maven3'
+    // }
     environment {
     // Define variables
         DOCKER_REGISTRY_URL = 'jcr:8092'
