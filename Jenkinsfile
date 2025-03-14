@@ -1,3 +1,4 @@
+@Library ('jenkins-task-libraries') _
 pipeline {
 
     agent any
@@ -15,7 +16,7 @@ pipeline {
     stages{
         stage("Compile"){
             steps{
-                sh "mvn clean compile"
+                compile()
             }
         }
 
