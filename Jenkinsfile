@@ -1,4 +1,4 @@
-@Library ('jenkins-task-libraries') _
+@Library ('jenkins-task-library') _
 pipeline {
 
     agent any
