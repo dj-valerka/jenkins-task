@@ -6,7 +6,6 @@ pipeline {
         maven 'maven3'
     }
     environment {
-    // Define variables
         ARTIFACTORY_URL = "http://172.23.0.3:8082"
         ARTIFACTORY_REPO = "artifactory"
         DOCKER_REGISTRY_URL = 'localhost:8092'
