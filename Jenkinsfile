@@ -49,8 +49,7 @@ pipeline {
         }
         stage("Build docker image"){
             steps{
-                sh "docker build -t ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER --no-cache ."
-                sh "docker tag ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:latest "
+                buildDockerImage()            
             }
         }
         stage("Publish docker image to JFrog Registry"){
