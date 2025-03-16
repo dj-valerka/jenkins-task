@@ -1,5 +1,4 @@
 def call() {
-    // Access Jenkins environment variables
     def dockerRegistryUrl = env.DOCKER_REGISTRY_URL
     def dockerRepo = env.DOCKER_REPO
     def dockerImageName = env.DOCKER_IMAGE_NAME

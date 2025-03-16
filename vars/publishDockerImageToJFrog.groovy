@@ -4,6 +4,7 @@ def call(String credentialsId) {
     def dockerImageName = env.DOCKER_IMAGE_NAME
     def buildNumber = env.BUILD_NUMBER 
     
+    // Use withCredentials to inject the JFrog credentials
     withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'JFROG_USER', passwordVariable: 'JFROG_PASSWORD')]) {
         
         // Log in to JFrog Artifactory (or another Docker registry)
