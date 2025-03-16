@@ -39,12 +39,11 @@ pipeline {
         stage("Publish *.jar to JFrog Artifactory"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWRORD")]){
-                        sh '''
-                            jf config add --artifactory-url $ARTIFACTORY_URL/$ARTIFACTORY_REPO --user $JFROG_USER --password $JFROG_PASSWRORD
-                            jf rt upload "target/*.jar" maven/
-                        '''
-                    }
+                    publishJarToArtifactory(
+                        artifactoryUrl: '$ARTIFACTORY_URL',
+                        artifactoryRepo: '$ARTIFACTORY_REPO',
+                        credentialsId: 'jfrog-credentials'
+                    )
                 }
             }
         }
