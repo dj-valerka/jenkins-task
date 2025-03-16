@@ -1,7 +1,7 @@
 @Library ('jenkins-task-library') _
 pipeline {
 
-    agent node2
+    agent { node { label 'node2' } }
     tools{
         jdk 'openjdk-8'
         maven 'maven3'
