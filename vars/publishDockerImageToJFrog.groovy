@@ -3,6 +3,7 @@ def call(Map config = [:]) {
     def dockerRepo = config.get('dockerRepo', '')
     def dockerImageName = config.get('dockerImageName', '')
     def buildNumber = env.BUILD_NUMBER
+    def credentialsId = config.get('credentialsId', '')
     
     // Use withCredentials to inject the JFrog credentials
     withCredentials([usernamePassword(credentialsId: credentialsId, usernameVariable: 'JFROG_USER', passwordVariable: 'JFROG_PASSWORD')]) {

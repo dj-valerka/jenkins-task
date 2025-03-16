@@ -57,7 +57,8 @@ pipeline {
                         dockerRegistryUrl: '$DOCKER_REGISTRY_URL',
                         dockerRepo: '$DOCKER_REPO',
                         dockerImageName: '$DOCKER_IMAGE_NAME',
-                        credentialsId: 'jfrog-credentials')
+                        credentialsId: 'jfrog-credentials'
+                    )
                 }
             }
         }         
