@@ -19,13 +19,11 @@ pipeline {
                 compile()
             }
         }
-
          stage("Test Cases"){
             steps{
                 sh "mvn test"
             }
         }
-
          stage("Build"){
             steps{
                 sh "mvn clean install"
@@ -55,13 +53,7 @@ pipeline {
         stage("Publish docker image to JFrog Registry"){
             steps{
                 script{
-                    withCredentials([usernamePassword(credentialsId: "jfrog-credentials", usernameVariable: "JFROG_USER", passwordVariable: "JFROG_PASSWORD")]){
-                        sh ''' 
-                           echo $JFROG_PASSWORD|docker login -u admin --password-stdin ${DOCKER_REGISTRY_URL}
-                        '''
-                        sh "docker push ${DOCKER_REGISTRY_URL}/${DOCKER_REPO}/${DOCKER_IMAGE_NAME}:$env.BUILD_NUMBER"
-                        
-                    }
+                    publishDockerImageToJFrog(credentialsId: 'jfrog-credentials')
                 }
             }
         }         
