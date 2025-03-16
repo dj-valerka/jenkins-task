@@ -53,7 +53,11 @@ pipeline {
         stage("Publish docker image to JFrog Registry"){
             steps{
                 script{
-                    publishDockerImageToJFrog(credentialsId: 'jfrog-credentials')
+                    publishDockerImageToJFrog(
+                        dockerRegistryUrl: '$DOCKER_REGISTRY_URL',
+                        dockerRepo: '$DOCKER_REPO',
+                        dockerImageName: '$DOCKER_IMAGE_NAME',
+                        credentialsId: 'jfrog-credentials')
                 }
             }
         }         
