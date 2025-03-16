@@ -33,7 +33,7 @@ pipeline {
         }
         stage('Install JFrog CLI'){
             steps{
-                jfrog-cli()
+                jfrogCli()
             }
         }
         stage("Publish *.jar to JFrog Artifactory"){
