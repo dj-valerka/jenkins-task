@@ -12,7 +12,8 @@ pipeline {
         DOCKER_REGISTRY_URL = 'localhost:8092'
         DOCKER_REPO = 'docker-local'
         DOCKER_IMAGE_NAME = 'jenkins-task'
-        POM_VERSION = ''
+        VERSION = readMavenPom().getVersion()
+
     }
     stages{
         stage("Compile"){
@@ -28,7 +29,7 @@ pipeline {
         stage("Print app version"){
             steps{
                 script{
-                echo "App version extracted: ${POM_VERSION}"
+                echo "App version extracted: ${VERSION}"
                 }
             }
         }
