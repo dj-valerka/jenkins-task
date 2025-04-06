@@ -28,50 +28,49 @@ pipeline {
         stage("Print app version"){
             steps{
                 script{
-                def appVersion = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
-
-                echo "App version extracted: ${appVersion}"
+                def mavenPom = readMavenPom file: "pom.xml"
+                echo "App version extracted: ${mavenPom.version}"
                 }
             }
         }
-        stage("Build"){
-            steps{
-                sh "mvn clean install"
-            }
-        }
-        stage('Install JFrog CLI'){
-            steps{
-                jfrogCli()
-            }
-        }
-        stage("Publish *.jar to JFrog Artifactory"){
-            steps{
-                script{
-                    publishJarToArtifactory(
-                        artifactoryUrl: '$ARTIFACTORY_URL',
-                        artifactoryRepo: '$ARTIFACTORY_REPO',
-                        credentialsId: 'jfrog-credentials'
-                    )
-                }
-            }
-        }
-        stage("Build docker image"){
-            steps{
-                buildDockerImage()            
-            }
-        }
-        stage("Publish docker image to JFrog Registry"){
-            steps{
-                script{
-                    publishDockerImageToJFrog(
-                        dockerRegistryUrl: '$DOCKER_REGISTRY_URL',
-                        dockerRepo: '$DOCKER_REPO',
-                        dockerImageName: '$DOCKER_IMAGE_NAME',
-                        credentialsId: 'jfrog-credentials'
-                    )
-                }
-            }
-        }         
+        // stage("Build"){
+        //     steps{
+        //         sh "mvn clean install"
+        //     }
+        // }
+        // stage('Install JFrog CLI'){
+        //     steps{
+        //         jfrogCli()
+        //     }
+        // }
+        // stage("Publish *.jar to JFrog Artifactory"){
+        //     steps{
+        //         script{
+        //             publishJarToArtifactory(
+        //                 artifactoryUrl: '$ARTIFACTORY_URL',
+        //                 artifactoryRepo: '$ARTIFACTORY_REPO',
+        //                 credentialsId: 'jfrog-credentials'
+        //             )
+        //         }
+        //     }
+        // }
+        // stage("Build docker image"){
+        //     steps{
+        //         buildDockerImage()            
+        //     }
+        // }
+        // stage("Publish docker image to JFrog Registry"){
+        //     steps{
+        //         script{
+        //             publishDockerImageToJFrog(
+        //                 dockerRegistryUrl: '$DOCKER_REGISTRY_URL',
+        //                 dockerRepo: '$DOCKER_REPO',
+        //                 dockerImageName: '$DOCKER_IMAGE_NAME',
+        //                 credentialsId: 'jfrog-credentials'
+        //             )
+        //         }
+        //     }
+        // }         
         // stage("Publish docker image"){
         //     steps{
         //         script{
