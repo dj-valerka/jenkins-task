@@ -19,12 +19,18 @@ pipeline {
                 compile()
             }
         }
-         stage("Test Cases"){
+        stage("Test Cases"){
             steps{
                 sh "mvn test"
             }
         }
-         stage("Build"){
+        stage("Print app version"){
+            steps{
+                def appVersion = sh (script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+                echo "The version is ${appVersion}"
+            }
+        }
+        stage("Build"){
             steps{
                 sh "mvn clean install"
             }
