@@ -28,8 +28,11 @@ pipeline {
         stage("Print app version"){
             steps{
                 script{
-                def mavenPom = readMavenPom file: "pom.xml"
-                echo "App version extracted: ${mavenPom.version}"
+                // def mavenPom = sh 'mvn build-helper:parse-version versions:set -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}-BUILD-${BUILD_NUMBER} versions:commit'
+
+                // echo "App version extracted: ${mavenPom.version}"
+                echo "Parsed Version: ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}"
+
                 }
             }
         }
