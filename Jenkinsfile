@@ -28,8 +28,8 @@ pipeline {
         }
         stage("Print app version"){
             steps{
-                script{
-                echo "App version extracted: ${VERSION}"
+                def mavenPom = readMavenPom 'pom.xml'
+                echo "App version extracted: ${mavenPom.version}"
                 }
             }
         }
