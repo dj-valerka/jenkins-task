@@ -28,8 +28,6 @@ pipeline {
         stage("Print app version"){
             steps{
                 script{
-                    def appVersion = sh(script: "xmlstarlet sel -t -v \"/project/version\" pom.xml", returnStdout: true).trim()
-                env.APP_VERSION = appVersion
                 echo "App version extracted: ${POM_VERSION}"
                 }
             }
