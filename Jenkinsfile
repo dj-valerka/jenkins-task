@@ -12,6 +12,7 @@ pipeline {
         DOCKER_REGISTRY_URL = 'localhost:8092'
         DOCKER_REPO = 'docker-local'
         DOCKER_IMAGE_NAME = 'jenkins-task'
+        APP_VERSION = ''
     }
     stages{
         stage("Compile"){
@@ -29,7 +30,7 @@ pipeline {
                 script{
                 def appVersion = sh(script: "mvn help:evaluate -Dexpression=project.version -DforceStdout", returnStdout: true).trim()
                 env.APP_VERSION = appVersion
-                echo "The version is ${env.APP_VERSION}"
+                echo "App version extracted: ${env.APP_VERSION}"
                 }
             }
         }
