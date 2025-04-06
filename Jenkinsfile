@@ -27,8 +27,8 @@ pipeline {
         stage("Print app version"){
             steps{
                 script{
-                    def appVersion = sh(script: "mvn exec:exec -Dexec.executable='echo' -Dexec.args='${project.version}'", returnStdout: true).trim()
-                    echo "The version is ${appVersion}"
+                def appVersion = sh (script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout", returnStdout: true).trim()
+                echo "The version is ${appVersion}"
                 }
             }
         }
