@@ -12,7 +12,7 @@ pipeline {
         DOCKER_REGISTRY_URL = 'localhost:8092'
         DOCKER_REPO = 'docker-local'
         DOCKER_IMAGE_NAME = 'jenkins-task'
-        APP_VERSION = ''
+        POM_VERSION = ''
     }
     stages{
         stage("Compile"){
